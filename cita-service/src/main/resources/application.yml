@@ -1,0 +1,27 @@
+spring:
+  application:
+    name: cita-service
+  profiles:
+    default: dev
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+---
+spring:
+  config:
+    activate:
+      on-profile: dev
+  datasource:
+    url: jdbc:mysql://localhost:3306/bd_cita_dev?createDatabaseIfNotExist=true&serverTimezone=UTC
+    username: root
+    password: root
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+server:
+  port: 8083
+paciente-url: http://localhost:8081
+medico-url: http://localhost:8082

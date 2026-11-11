@@ -1,0 +1,25 @@
+spring:
+  application:
+    name: paciente-service
+  profiles:
+    default: dev
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+---
+spring:
+  config:
+    activate:
+      on-profile: dev
+  datasource:
+    url: jdbc:mysql://localhost:3306/bd_paciente_dev?createDatabaseIfNotExist=true&serverTimezone=UTC
+    username: root
+    password: root
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+server:
+  port: 8081
