@@ -1,0 +1,2 @@
+package com.saludintegral.medico.model;
+import jakarta.persistence.*; @Entity @Table(name="medico",uniqueConstraints=@UniqueConstraint(columnNames="cmp")) public class Medico {@Id @GeneratedValue(strategy=GenerationType.IDENTITY) @Column(name="id_medico") public Long idMedico; @Column(nullable=false,unique=true,length=20) public String cmp; @Column(nullable=false,length=100) public String nombres,apellidos; public String telefono,correo; @Column(name="id_especialidad",nullable=false) public Long idEspecialidad; @Column(length=1) public String estado="A";}

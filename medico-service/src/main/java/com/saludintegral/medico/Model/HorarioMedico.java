@@ -1,0 +1,2 @@
+package com.saludintegral.medico.model;
+import jakarta.persistence.*;import java.time.LocalTime;@Entity @Table(name="horario_medico")public class HorarioMedico{@Id @GeneratedValue(strategy=GenerationType.IDENTITY)@Column(name="id_horario")public Long idHorario;@Column(name="id_medico",nullable=false)public Long idMedico;@Column(length=15)public String diaSemana;public LocalTime horaInicio,horaFin;}
