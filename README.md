@@ -14,6 +14,15 @@ Desde esta carpeta:
 
 Ejecute cada Maven en una terminal. El perfil dev es el predeterminado; prod se activa con -Dspring-boot.run.profiles=prod y variables DB_URL, DB_USER, DB_PASSWORD, PORT, PACIENTE_URL, MEDICO_URL. Salud: /actuator/health.
 
+## Modo Postman sin MySQL
+Para ejecutar de inmediato sin Docker ni MySQL, inicie cada servicio con el perfil postman:
+
+    mvn -f paciente-service/pom.xml spring-boot:run -Dspring-boot.run.profiles=postman
+    mvn -f medico-service/pom.xml spring-boot:run -Dspring-boot.run.profiles=postman
+    mvn -f cita-service/pom.xml spring-boot:run -Dspring-boot.run.profiles=postman
+
+Este perfil usa una base H2 en memoria independiente por servicio; los datos se borran al detener las aplicaciones. Para persistencia use el perfil dev con MySQL.
+
 ## API
 Pacientes: CRUD en /api/pacientes. Requiere DNI de 8 dígitos, nombres y apellidos.
 Médicos: CRUD en /api/medicos; especialidades: GET y POST en /api/especialidades; horarios: CRUD básico en /api/horarios. CMP y especialidad son obligatorios.
