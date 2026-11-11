@@ -1,0 +1,168 @@
+{
+  "info": {
+    "name": "Salud Integral - Microservicios",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "pacienteId",
+      "value": "1"
+    },
+    {
+      "key": "medicoId",
+      "value": "1"
+    },
+    {
+      "key": "citaId",
+      "value": "1"
+    }
+  ],
+  "item": [
+    {
+      "name": "Crear especialidad",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "http://localhost:8082/api/especialidades",
+        "body": {
+          "mode": "raw",
+          "raw": "{\"nombre\":\"Medicina general\",\"descripcion\":\"Atención primaria\",\"estado\":\"A\"}"
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "if(pm.response.code===201){pm.collectionVariables.set('especialidadId',pm.response.json().idEspecialidad)}"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Crear médico",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "http://localhost:8082/api/medicos",
+        "body": {
+          "mode": "raw",
+          "raw": "{\"cmp\":\"CMP-12345\",\"nombres\":\"Ana\",\"apellidos\":\"Torres\",\"telefono\":\"987654321\",\"correo\":\"ana@example.com\",\"idEspecialidad\":{{especialidadId}},\"estado\":\"A\"}"
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "if(pm.response.code===201){pm.collectionVariables.set('medicoId',pm.response.json().idMedico)}"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Crear paciente",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "http://localhost:8081/api/pacientes",
+        "body": {
+          "mode": "raw",
+          "raw": "{\"dni\":\"12345678\",\"nombres\":\"Juan\",\"apellidos\":\"Pérez Gómez\",\"fechaNacimiento\":\"1990-04-12\",\"sexo\":\"M\",\"telefono\":\"987654321\",\"direccion\":\"Lima\",\"correo\":\"juan@example.com\",\"estado\":\"A\"}"
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "if(pm.response.code===201){pm.collectionVariables.set('pacienteId',pm.response.json().idPaciente)}"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Crear cita",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "http://localhost:8083/api/citas",
+        "body": {
+          "mode": "raw",
+          "raw": "{\"fecha\":\"2026-12-01\",\"hora\":\"09:30:00\",\"idPaciente\":{{pacienteId}},\"idMedico\":{{medicoId}},\"motivo\":\"Control\"}"
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "if(pm.response.code===201){pm.collectionVariables.set('citaId',pm.response.json().idCita)}"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Listar citas",
+      "request": {
+        "method": "GET",
+        "url": "http://localhost:8083/api/citas"
+      }
+    },
+    {
+      "name": "Buscar cita inexistente (404)",
+      "request": {
+        "method": "GET",
+        "url": "http://localhost:8083/api/citas/999999"
+      }
+    },
+    {
+      "name": "Actualizar estado a CONFIRMADA",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "http://localhost:8083/api/citas/{{citaId}}/estado",
+        "body": {
+          "mode": "raw",
+          "raw": "{\"estado\":\"CONFIRMADA\"}"
+        }
+      }
+    },
+    {
+      "name": "Cancelar cita",
+      "request": {
+        "method": "DELETE",
+        "url": "http://localhost:8083/api/citas/{{citaId}}"
+      }
+    }
+  ]
+}
